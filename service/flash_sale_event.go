@@ -7,21 +7,18 @@ import (
 
 	"github.com/flash_sale/flash_sale_product_service/genproto/product_service"
 	"github.com/flash_sale/flash_sale_product_service/storage"
-	"github.com/flash_sale/flash_sale_product_service/storage/redis"
 )
 
 // FlashSaleEventService implements the product_service.FlashSaleEventServiceServer interface.
 type FlashSaleEventService struct {
-	storage     storage.StorageI
-	redisClient *redis.Client
+	storage storage.StorageI
 	product_service.UnimplementedFlashSaleEventServiceServer
 }
 
 // NewFlashSaleEventService creates a new FlashSaleEventService instance.
-func NewFlashSaleEventService(storage storage.StorageI, redisClient *redis.Client) *FlashSaleEventService {
+func NewFlashSaleEventService(storage storage.StorageI) *FlashSaleEventService {
 	return &FlashSaleEventService{
-		storage:     storage,
-		redisClient: redisClient,
+		storage: storage,
 	}
 }
 
@@ -41,7 +38,7 @@ func (s *FlashSaleEventService) CreateFlashSaleEvent(ctx context.Context, req *p
 	)
 
 	// Send notification for creation
-	if err := s.redisClient.AddNotification(ctx, "brodacast", notificationMessage); err != nil {
+	if err := s.storage.SendNotification().SendNotification(ctx, notificationMessage); err != nil {
 		log.Printf("failed to send notification: %v", err)
 	}
 

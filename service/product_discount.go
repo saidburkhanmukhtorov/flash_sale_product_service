@@ -7,21 +7,18 @@ import (
 
 	"github.com/flash_sale/flash_sale_product_service/genproto/product_service"
 	"github.com/flash_sale/flash_sale_product_service/storage"
-	"github.com/flash_sale/flash_sale_product_service/storage/redis"
 )
 
 // ProductDiscountService implements the product_service.ProductDiscountServiceServer interface.
 type ProductDiscountService struct {
-	storage     storage.StorageI
-	redisClient *redis.Client
+	storage storage.StorageI
 	product_service.UnimplementedProductDiscountServiceServer
 }
 
 // NewProductDiscountService creates a new ProductDiscountService instance.
-func NewProductDiscountService(storage storage.StorageI, redisClient *redis.Client) *ProductDiscountService {
+func NewProductDiscountService(storage storage.StorageI) *ProductDiscountService {
 	return &ProductDiscountService{
-		storage:     storage,
-		redisClient: redisClient,
+		storage: storage,
 	}
 }
 
@@ -51,7 +48,7 @@ func (s *ProductDiscountService) CreateProductDiscount(ctx context.Context, req 
 		product.BasePrice,
 		calculateDiscountedPrice(product.BasePrice, discount),
 	)
-	if err := s.redisClient.AddNotification(ctx, "broadcast", notificationMessage); err != nil {
+	if err := s.storage.SendNotification().SendNotification(ctx, notificationMessage); err != nil {
 		log.Printf("failed to send notification: %v", err)
 	}
 

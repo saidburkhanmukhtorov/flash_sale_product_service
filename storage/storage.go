@@ -13,6 +13,11 @@ type StorageI interface {
 	FlashSaleEvent() FlashSaleEventI
 	ProductDiscount() ProductDiscountI
 	FlashSaleEventProduct() FlashSaleEventProductI
+	SendNotification() NotificationI
+}
+
+type NotificationI interface {
+	SendNotification(ctx context.Context, message string) error
 }
 
 // ProductI defines methods for interacting with product data.

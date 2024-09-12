@@ -18,6 +18,7 @@ type StoragePg struct {
 	flashSaleEventRepo   storage.FlashSaleEventI
 	productDiscountRepo  storage.ProductDiscountI
 	flashSaleProductRepo storage.FlashSaleEventProductI
+	notificationRepo     storage.NotificationI
 }
 
 // NewStoragePg creates a new PostgreSQL storage instance.
@@ -46,6 +47,7 @@ func NewStoragePg(cfg config.Config) (storage.StorageI, error) {
 		flashSaleEventRepo:   NewFlashSaleRepo(db),
 		productDiscountRepo:  NewProductDiscountuctRepo(db),
 		flashSaleProductRepo: NewFlashSaleEventProductRepo(db),
+		notificationRepo:     NewNotificationRepo(db),
 	}, nil
 }
 
@@ -83,4 +85,9 @@ func (s *StoragePg) ProductDiscount() storage.ProductDiscountI {
 // FlashSaleEventProduct returns the FlashSaleEventProductI implementation for PostgreSQL.
 func (s *StoragePg) FlashSaleEventProduct() storage.FlashSaleEventProductI {
 	return s.flashSaleProductRepo
+}
+
+// FlashSaleEventProduct returns the FlashSaleEventProductI implementation for PostgreSQL.
+func (s *StoragePg) SendNotification() storage.NotificationI {
+	return s.notificationRepo
 }

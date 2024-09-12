@@ -25,6 +25,13 @@ type Config struct {
 	RedisAddress  string
 	RedisPassword string
 	RedisDB       int
+
+	// Email Configuration (if using email OTP)
+	EmailSender      string
+	EmailPassword    string
+	EmailHost        string
+	EmailPort        int
+	EmailFromAddress string
 }
 
 // Load loads the configuration from environment variables.
@@ -48,6 +55,13 @@ func Load() Config {
 	config.RedisAddress = cast.ToString(coalesce("REDIS_ADDRESS", "localhost:6379"))
 	config.RedisPassword = cast.ToString(coalesce("REDIS_PASSWORD", ""))
 	config.RedisDB = cast.ToInt(coalesce("REDIS_DB", 0))
+
+	// Email Configuration (if using email OTP)
+	config.EmailSender = cast.ToString(coalesce("EMAIL_SENDER", "qodirovazizbek1129@gmail.com"))
+	config.EmailPassword = cast.ToString(coalesce("EMAIL_PASSWORD", "wert jkzt mtab wvaq ewlm sjldfldksj"))
+	config.EmailHost = cast.ToString(coalesce("EMAIL_HOST", "smtp.gmail.com"))
+	config.EmailPort = cast.ToInt(coalesce("EMAIL_PORT", 587))
+	config.EmailFromAddress = cast.ToString(coalesce("EMAIL_FROM_ADDRESS", "your_email@example.com"))
 
 	config.KafkaBrokers = cast.ToStringSlice(coalesce("KAFKA_BROKERS", []string{"kafka:9092"}))
 

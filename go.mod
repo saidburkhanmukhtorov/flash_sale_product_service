@@ -4,6 +4,7 @@ go 1.22.5
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.1
 	github.com/joho/godotenv v1.5.1
