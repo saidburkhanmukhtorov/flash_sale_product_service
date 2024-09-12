@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "/genproto/product_service";
+
+import "google/protobuf/timestamp.proto";
+
+// FlashSaleEventProduct represents a product associated with a flash sale event.
+message FlashSaleEventProduct {
+  string id = 1;
+  string event_id = 2;
+  string product_id = 3;
+  float discount_percentage = 4;
+  float sale_price = 5;
+  int32 available_quantity = 6;
+  int32 original_stock = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// CreateFlashSaleEventProductRequest represents a request to create a new flash sale event product.
+message CreateFlashSaleEventProductRequest {
+  FlashSaleEventProduct flash_sale_event_product = 1;
+}
+
+// CreateFlashSaleEventProductResponse represents a response to a CreateFlashSaleEventProductRequest.
+message CreateFlashSaleEventProductResponse {
+  FlashSaleEventProduct flash_sale_event_product = 1;
+}
+
+// GetFlashSaleEventProductRequest represents a request to get a flash sale event product by ID.
+message GetFlashSaleEventProductRequest {
+  string id = 1;
+}
+
+// GetFlashSaleEventProductResponse represents a response to a GetFlashSaleEventProductRequest.
+message GetFlashSaleEventProductResponse {
+  FlashSaleEventProduct flash_sale_event_product = 1;
+}
+
+// UpdateFlashSaleEventProductRequest represents a request to update an existing flash sale event product.
+message UpdateFlashSaleEventProductRequest {
+  FlashSaleEventProduct flash_sale_event_product = 1;
+}
+
+// UpdateFlashSaleEventProductResponse represents a response to an UpdateFlashSaleEventProductRequest.
+message UpdateFlashSaleEventProductResponse {
+  FlashSaleEventProduct flash_sale_event_product = 1;
+}
+
+// DeleteFlashSaleEventProductRequest represents a request to delete a flash sale event product by ID.
+message DeleteFlashSaleEventProductRequest {
+  string id = 1;
+}
+
+// DeleteFlashSaleEventProductResponse represents a response to a DeleteFlashSaleEventProductRequest.
+message DeleteFlashSaleEventProductResponse {
+  string message = 1; // Success message
+}
+
+// ListFlashSaleEventProductsRequest represents a request to list flash sale event products.
+message ListFlashSaleEventProductsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string event_id = 3;
+  string product_id = 4;
+  float min_discount_percentage = 5;
+  float max_discount_percentage = 6;
+  float min_sale_price = 7;
+  float max_sale_price = 8;
+}
+
+// ListFlashSaleEventProductsResponse represents a response to a ListFlashSaleEventProductsRequest.
+message ListFlashSaleEventProductsResponse {
+  repeated FlashSaleEventProduct flash_sale_event_products = 1;
+  int32 total = 2;
+}
+
+// FlashSaleEventProductService defines the gRPC service for managing flash sale event products.
+service FlashSaleEventProductService {
+  rpc CreateFlashSaleEventProduct(CreateFlashSaleEventProductRequest) returns (CreateFlashSaleEventProductResponse);
+  rpc GetFlashSaleEventProduct(GetFlashSaleEventProductRequest) returns (GetFlashSaleEventProductResponse);
+  rpc UpdateFlashSaleEventProduct(UpdateFlashSaleEventProductRequest) returns (UpdateFlashSaleEventProductResponse);
+  rpc DeleteFlashSaleEventProduct(DeleteFlashSaleEventProductRequest) returns (DeleteFlashSaleEventProductResponse);
+  rpc ListFlashSaleEventProducts(ListFlashSaleEventProductsRequest) returns (ListFlashSaleEventProductsResponse);
+}

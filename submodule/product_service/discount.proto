@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "/genproto/product_service";
+
+import "google/protobuf/timestamp.proto";
+
+// Discount represents a discount that can be applied to products.
+message Discount {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string discount_type = 4; // Possible values: 'PERCENTAGE', 'FIXED_AMOUNT'
+  float discount_value = 5;
+  google.protobuf.Timestamp start_date = 6;
+  google.protobuf.Timestamp end_date = 7;
+  bool is_active = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// CreateDiscountRequest represents a request to create a new discount.
+message CreateDiscountRequest {
+  Discount discount = 1;
+}
+
+// CreateDiscountResponse represents a response to a CreateDiscountRequest.
+message CreateDiscountResponse {
+  Discount discount = 1;
+}
+
+// GetDiscountRequest represents a request to get a discount by ID.
+message GetDiscountRequest {
+  string id = 1;
+}
+
+// GetDiscountResponse represents a response to a GetDiscountRequest.
+message GetDiscountResponse {
+  Discount discount = 1;
+}
+
+// UpdateDiscountRequest represents a request to update an existing discount.
+message UpdateDiscountRequest {
+  Discount discount = 1;
+}
+
+// UpdateDiscountResponse represents a response to an UpdateDiscountRequest.
+message UpdateDiscountResponse {
+  Discount discount = 1;
+}
+
+// DeleteDiscountRequest represents a request to delete a discount by ID.
+message DeleteDiscountRequest {
+  string id = 1;
+}
+
+// DeleteDiscountResponse represents a response to a DeleteDiscountRequest.
+message DeleteDiscountResponse {
+  string message = 1; // Success message
+}
+
+// ListDiscountsRequest represents a request to list discounts.
+message ListDiscountsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string name = 3;
+  string description = 4;
+  string discount_type = 5;
+  float min_discount_value = 6;
+  float max_discount_value = 7;
+  google.protobuf.Timestamp start_date = 8;
+  google.protobuf.Timestamp end_date = 9;
+  bool is_active = 10;
+}
+// ListDiscountsResponse represents a response to a ListDiscountsRequest.
+message ListDiscountsResponse {
+  repeated Discount discounts = 1;
+  int32 total = 2;
+}
+
+// DiscountService defines the gRPC service for managing discounts.
+service DiscountService {
+  rpc CreateDiscount(CreateDiscountRequest) returns (CreateDiscountResponse);
+  rpc GetDiscount(GetDiscountRequest) returns (GetDiscountResponse);
+  rpc UpdateDiscount(UpdateDiscountRequest) returns (UpdateDiscountResponse);
+  rpc DeleteDiscount(DeleteDiscountRequest) returns (DeleteDiscountResponse);
+  rpc ListDiscounts(ListDiscountsRequest) returns (ListDiscountsResponse);
+}

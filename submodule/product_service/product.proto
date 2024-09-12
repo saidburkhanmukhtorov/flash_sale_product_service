@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "/genproto/product_service";
+
+import "google/protobuf/timestamp.proto";
+
+// Product represents a product in the system.
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float base_price = 4;
+  float current_price = 5;
+  string image_url = 6;
+  int32 stock_quantity = 7;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// CreateProductRequest represents a request to create a new product.
+message CreateProductRequest {
+  Product product = 1;
+}
+
+// CreateProductResponse represents a response to a CreateProductRequest.
+message CreateProductResponse {
+  Product product = 1;
+}
+
+// GetProductRequest represents a request to get a product by ID.
+message GetProductRequest {
+  string id = 1;
+}
+
+// GetProductResponse represents a response to a GetProductRequest.
+message GetProductResponse {
+  Product product = 1;
+}
+
+// UpdateProductRequest represents a request to update an existing product.
+message UpdateProductRequest {
+  Product product = 1;
+}
+
+// UpdateProductResponse represents a response to an UpdateProductRequest.
+message UpdateProductResponse {
+  Product product = 1;
+}
+
+// DeleteProductRequest represents a request to delete a product by ID.
+message DeleteProductRequest {
+  string id = 1;
+}
+
+// DeleteProductResponse represents a response to a DeleteProductRequest.
+message DeleteProductResponse {
+  string message = 1; // Success message
+}
+
+// ListProductsRequest represents a request to list products.
+message ListProductsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string name = 3;
+  string description = 4;
+  float min_price = 5;
+  float max_price = 6;
+}
+
+// ListProductsResponse represents a response to a ListProductsRequest.
+message ListProductsResponse {
+  repeated Product products = 1;
+  int32 total = 2;
+}
+
+// ProductService defines the gRPC service for managing products.
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+}

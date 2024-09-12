@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "/genproto/product_service";
+
+import "google/protobuf/timestamp.proto";
+
+// FlashSaleEvent represents a flash sale event.
+message FlashSaleEvent {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+  string status = 6; // Possible values: 'UPCOMING', 'ACTIVE', 'ENDED'
+  string event_type = 7; // Possible values: 'FLASH_SALE', 'PROMOTION'
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// CreateFlashSaleEventRequest represents a request to create a new flash sale event.
+message CreateFlashSaleEventRequest {
+  FlashSaleEvent flash_sale_event = 1;
+}
+
+// CreateFlashSaleEventResponse represents a response to a CreateFlashSaleEventRequest.
+message CreateFlashSaleEventResponse {
+  FlashSaleEvent flash_sale_event = 1;
+}
+
+// GetFlashSaleEventRequest represents a request to get a flash sale event by ID.
+message GetFlashSaleEventRequest {
+  string id = 1;
+}
+
+// GetFlashSaleEventResponse represents a response to a GetFlashSaleEventRequest.
+message GetFlashSaleEventResponse {
+  FlashSaleEvent flash_sale_event = 1;
+}
+
+// UpdateFlashSaleEventRequest represents a request to update an existing flash sale event.
+message UpdateFlashSaleEventRequest {
+  FlashSaleEvent flash_sale_event = 1;
+}
+
+// UpdateFlashSaleEventResponse represents a response to an UpdateFlashSaleEventRequest.
+message UpdateFlashSaleEventResponse {
+  FlashSaleEvent flash_sale_event = 1;
+}
+
+// DeleteFlashSaleEventRequest represents a request to delete a flash sale event by ID.
+message DeleteFlashSaleEventRequest {
+  string id = 1;
+}
+
+// DeleteFlashSaleEventResponse represents a response to a DeleteFlashSaleEventRequest.
+message DeleteFlashSaleEventResponse {
+  string message = 1; // Success message
+}
+
+// ListFlashSaleEventsRequest represents a request to list flash sale events.
+message ListFlashSaleEventsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string name = 3;
+  string description = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  string status = 7;
+  string event_type = 8;
+}
+
+// ListFlashSaleEventsResponse represents a response to a ListFlashSaleEventsRequest.
+message ListFlashSaleEventsResponse {
+  repeated FlashSaleEvent flash_sale_events = 1;
+  int32 total = 2;
+}
+
+// FlashSaleEventService defines the gRPC service for managing flash sale events.
+service FlashSaleEventService {
+  rpc CreateFlashSaleEvent(CreateFlashSaleEventRequest) returns (CreateFlashSaleEventResponse);
+  rpc GetFlashSaleEvent(GetFlashSaleEventRequest) returns (GetFlashSaleEventResponse);
+  rpc UpdateFlashSaleEvent(UpdateFlashSaleEventRequest) returns (UpdateFlashSaleEventResponse);
+  rpc DeleteFlashSaleEvent(DeleteFlashSaleEventRequest) returns (DeleteFlashSaleEventResponse);
+  rpc ListFlashSaleEvents(ListFlashSaleEventsRequest) returns (ListFlashSaleEventsResponse);
+}

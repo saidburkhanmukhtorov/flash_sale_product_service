@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "/genproto/product_service";
+
+import "google/protobuf/timestamp.proto";
+
+// ProductDiscount represents a discount applied to a specific product.
+message ProductDiscount {
+  string id = 1;
+  string product_id = 2;
+  string discount_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+// CreateProductDiscountRequest represents a request to create a new product discount.
+message CreateProductDiscountRequest {
+  ProductDiscount product_discount = 1;
+}
+
+// CreateProductDiscountResponse represents a response to a CreateProductDiscountRequest.
+message CreateProductDiscountResponse {
+  ProductDiscount product_discount = 1;
+}
+
+// GetProductDiscountRequest represents a request to get a product discount by ID.
+message GetProductDiscountRequest {
+  string id = 1;
+}
+
+// GetProductDiscountResponse represents a response to a GetProductDiscountRequest.
+message GetProductDiscountResponse {
+  ProductDiscount product_discount = 1;
+}
+
+// UpdateProductDiscountRequest represents a request to update an existing product discount.
+message UpdateProductDiscountRequest {
+  ProductDiscount product_discount = 1;
+}
+
+// UpdateProductDiscountResponse represents a response to an UpdateProductDiscountRequest.
+message UpdateProductDiscountResponse {
+  ProductDiscount product_discount = 1;
+}
+
+// DeleteProductDiscountRequest represents a request to delete a product discount by ID.
+message DeleteProductDiscountRequest {
+  string id = 1;
+}
+
+// DeleteProductDiscountResponse represents a response to a DeleteProductDiscountRequest.
+message DeleteProductDiscountResponse {
+  string message = 1; // Success message
+}
+
+// ListProductDiscountsRequest represents a request to list product discounts.
+message ListProductDiscountsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string product_id = 3; // Add product_id filter
+  string discount_id = 4; // Add discount_id filter
+}
+// ListProductDiscountsResponse represents a response to a ListProductDiscountsRequest.
+message ListProductDiscountsResponse {
+  repeated ProductDiscount product_discounts = 1;
+  int32 total = 2;
+}
+
+// ProductDiscountService defines the gRPC service for managing product discounts.
+service ProductDiscountService {
+  rpc CreateProductDiscount(CreateProductDiscountRequest) returns (CreateProductDiscountResponse);
+  rpc GetProductDiscount(GetProductDiscountRequest) returns (GetProductDiscountResponse);
+  rpc UpdateProductDiscount(UpdateProductDiscountRequest) returns (UpdateProductDiscountResponse);
+  rpc DeleteProductDiscount(DeleteProductDiscountRequest) returns (DeleteProductDiscountResponse);
+  rpc ListProductDiscounts(ListProductDiscountsRequest) returns (ListProductDiscountsResponse);
+}
