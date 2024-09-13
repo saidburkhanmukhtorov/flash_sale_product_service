@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  timeline-service:
+    container_name: product_service 
+    build: ./
+    ports:
+      - "9091:9091"
+
+    networks:
+      - global-network
+
+networks:
+  global-network:
+    external: true 
